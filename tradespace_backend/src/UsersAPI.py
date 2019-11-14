@@ -5,10 +5,6 @@ from firebase_admin import auth as firebase_auth
 from firebase_admin import _auth_utils as firebase_auth_utils
 users_api = Blueprint('users_api', __name__)
 
-@users_api.route('/')
-def hello():
-  return 'Users: Hello World!'
-
 @users_api.route('/<string:user_id>', methods=['GET'])
 @auth.login_required
 def get_user_with_id(user_id):
