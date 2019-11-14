@@ -22,7 +22,7 @@ def hello():
 @app.route("/authreq")
 @auth.login_required
 def authreq():
-    return "blah"
+  return "blah"
 
 if __name__ == "__main__":
   app.run()
