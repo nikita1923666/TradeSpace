@@ -5,8 +5,8 @@ from LoginAPI import login_api
 from ItemsAPI import items_api
 from SearchAPI import search_api
 import firebase_admin
-from firebase_admin import auth as firebase_auth
 from firebase_admin import credentials
+from TokenAuthentication import auth
 
 cred = credentials.Certificate("../instance/tradespace_firebase_admin_key.json")
 firebase_admin.initialize_app(cred)
@@ -16,17 +16,6 @@ app.register_blueprint(users_api,  url_prefix='/users')
 app.register_blueprint(login_api,  url_prefix='/login')
 app.register_blueprint(items_api,  url_prefix='/items')
 app.register_blueprint(search_api, url_prefix='/search')
-
-auth = HTTPTokenAuth(scheme='Token')
-
-@auth.verify_token
-def verify_token(token):
-    try:
-        decoded_token = firebase_auth.verify_id_token(id_token)
-        g.uid = decoded_token['uid']
-        return True
-    except:
-        return False
 
 @app.route("/")
 def hello():
