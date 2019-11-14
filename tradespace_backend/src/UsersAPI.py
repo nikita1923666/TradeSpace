@@ -9,11 +9,11 @@ users_api = Blueprint('users_api', __name__)
 def hello():
   return 'Users: Hello World!'
 
-@users_api.route('<user_id>', methods=['GET'])
+@users_api.route('/', methods=['GET'])
 def get_user(user_id):
   return "USER WITH ID {}".format(user_id)
 
-@users_api.route('/create_user', methods=['POST'])
+@users_api.route('/', methods=['POST'])
 def create_user():
   try:
     email = request.form['email']
