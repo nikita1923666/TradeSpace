@@ -29,6 +29,13 @@ def create_item():
 
   return item.to_dict(), 201
 
-@items_api.route('/')
-def hello():
-  return 'Items: Hello World!'
+@items_api.route('/<string:item_id>', methods=['GET'])
+@auth.login_required
+def get_item(item_id):
+  db = firestore.client()
+  try:
+    item_dict = db.collection(ITEMS_COLLECTION).document(item_id).get().to_dict()
+    item = Item.from_dict(item_dict)
+  except:
+    return {'error': 'item not found'}, 404
+  return item.to_dict(), 200
