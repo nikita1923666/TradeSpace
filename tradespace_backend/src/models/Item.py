@@ -26,3 +26,10 @@ class Item(object):
       'description': self.description,
       'owner_uid': self.owner_uid
     }
+
+  def update(self, title, photo_url, location, tags, description):
+    self.title = title if title else self.title
+    self.photo_url = photo_url if photo_url else self.photo_url
+    self.location = location if location else self.location
+    self.tags = tags if tags else self.tags  # TODO: maybe add/remove from array
+    self.description = description if description else self.description

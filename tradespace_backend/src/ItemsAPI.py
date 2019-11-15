@@ -39,3 +39,29 @@ def get_item(item_id):
   except:
     return {'error': 'item not found'}, 404
   return item.to_dict(), 200
+
+@items_api.route('/<string:item_id>', methods=['PUT'])
+@auth.login_required
+def update_item(item_id):
+  response, response_code = get_item(item_id)
+  if response_code != 200:
+    return response, response_code
+
+  item = Item.from_dict(response)
+  if item.owner_uid != g.uid:
+    return {'error': 'user does not own this item'}, 401
+
+  title = request.form.get('title')
+  location = request.form.get('location')
+  description = request.form.get('description')
+  tags = request.form.getlist('tags')
+  photo_url = request.form.get('photo_url')
+
+  item.update(title=title, location=location, description=description, tags=tags, photo_url=photo_url)
+  db = firestore.client()
+  try:
+    db.collection(ITEMS_COLLECTION).document(item_id).update(item.to_dict())
+  except:
+    return {'error': 'something went wrong, please try again later'}, 500
+
+  return item.to_dict(), 200
