@@ -84,3 +84,24 @@ def delete_item(item_id):
     return {'error': 'something went wrong, please try again later'}, 500
 
   return item.to_dict(), 200
+
+#### GET ITEM COLLECTION
+
+@items_api.route('/', methods=['GET'])
+@auth.login_required
+def get_items():
+  db = firestore.client()
+  target_uid = request.args.get('user_id')
+  if target_uid is None:
+    target_uid = g.uid
+  else:
+    # TODO: verify that uid passed is valid
+    pass
+
+  items = db.collection(ITEMS_COLLECTION).where("owner_uid", "==", target_uid).stream()
+
+  result = {}
+  for item in items:
+    result[item.id] = item.to_dict()
+
+  return result, 200
