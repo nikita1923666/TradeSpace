@@ -7,7 +7,7 @@ import firebase_admin
 from firebase_admin import credentials
 from src.TokenAuthentication import auth
 
-# ENTER YOUR FULL LOCAL PATH to the json file here ("/Users/.../tradespace_firebase_admin_key.json")
+# ENTER YOUR FULL LOCAL PATH to the json file here ("/Users/.../tradespace_firebase_admin_key.json") & DON'T COMMIT THE NEXT LINE
 cred = credentials.Certificate("FULL/PATH/TO/tradespace_firebase_admin_key.json")
 firebase_admin.initialize_app(cred)
 
