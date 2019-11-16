@@ -1,10 +1,4 @@
 import pytest
-from src.app import app
-
-@pytest.fixture
-def client():
-  with app.test_client() as client:
-    yield client
 
 def test_success_1(client):
   """Checking the create user route."""
