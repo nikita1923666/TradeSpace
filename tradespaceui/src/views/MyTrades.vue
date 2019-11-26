@@ -3,54 +3,72 @@
     <b-card
       class="overflow-hidden"
       style="margin-top: 10px;"
-      v-for="trade in trade_list"
-      v-bind:key="trade.seller_item_id"
+      v-for="transaction in trade_list"
+      v-bind:key="transaction.trade_id"
     >
       <b-row>
-        <b-col>
-          <b-card v-if="user_id == trade.buyer_id">
-            <b-card-img :src="trade.image_url" class="imageSize"></b-card-img>
-            <b-card-text> Buyer Item: {{ trade.buyer_item_id }} </b-card-text>
-          </b-card>
-
-          <b-card v-if="user_id == trade.seller_id">
-            <b-card-img :src="trade.image_url" class="imageSize"></b-card-img>
-            <b-card-text> Seller Item: {{ trade.seller_item_id }} </b-card-text>
-          </b-card>
+        <v-card-title style="padding-left:5%">Trade with {{ transaction.other_person.display_name }}</v-card-title>
+        <b-button
+          v-if="transaction.status == 0 || transaction.status == 1"
+          class="pushRight"
+          variant="danger"
+        >Close</b-button>
+      </b-row>
+      <b-row>
+        <b-col style="padding:5%; display: flex; flex-direction: column; align-items: center;">
+          <v-list-item-avatar
+            contain
+            color="grey"
+            style="object-fit: cover; width: 150px; height: 150px "
+          >
+            <v-img :src="transaction.other_person.photo_url"></v-img>
+          </v-list-item-avatar>
+          <b-card-body style="text-align: center;">
+            <v-list-item-title>{{transaction.other_person.phone}}</v-list-item-title>
+            <v-list-item-title>{{transaction.other_person.email}}</v-list-item-title>
+          </b-card-body>
         </b-col>
-
         <b-col>
-          <b-card v-if="user_id == trade.seller_id">
-            <b-card-img
-              src="https://media.licdn.com/dms/image/C5603AQHN1MngtTdA7Q/profile-displayphoto-shrink_800_800/0?e=1580342400&v=beta&t=mAHZ16NRQ4TAWIxs0NM1Y5YQbw_tc3r3SuQ1bJIx3YI"
-              class="imageSize"
-            ></b-card-img>
-            <b-card-text> Seller: {{ trade.seller_id }} </b-card-text>
-          </b-card>
-
-          <b-card v-if="user_id == trade.buyer_id">
-            <b-card-img
-              src="https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/50787743_991195991071591_4988716462626570240_n.jpg?_nc_cat=103&_nc_ohc=UaT26VSYKiwAQmae_is2QZmJDCVGnsPQ4I2xwaSuysQ_5Vs4BxAfiVtQQ&_nc_ht=scontent-lax3-1.xx&oh=6a3f853447276ee9374fcc74fa220b64&oe=5E8784AB"
-              class="imageSize"
+          <b-card>
+            <b-card-title>Your Item</b-card-title>
+            <div
+              style="display: flex; flex-direction: column; justify-content: center; align-items: center"
             >
-            </b-card-img>
-            <b-card-text> Buyer: {{ trade.buyer_id }} </b-card-text>
+              <b-img contain color="grey" :src="transaction.your_item_photo" class="imageCard"></b-img>
+              <b-card-body>
+                <v-list-item-title style="text-align: center">{{transaction.your_item_name}}</v-list-item-title>
+              </b-card-body>
+            </div>
           </b-card>
         </b-col>
-
         <b-col>
-          <b-img
-            :src="require('@/assets/check.jpg')"
-            width="50"
-            height="50"
-            v-if="user_id == trade.seller_id"
-          />
-          <b-img
-            :src="require('@/assets/pending.png')"
-            width="50"
-            height="50"
-            v-if="user_id == trade.buyer_id"
-          />
+          <b-card>
+            <b-card-title>Their Item</b-card-title>
+            <div
+              style="display: flex; flex-direction: column; justify-content: center; align-items: center"
+            >
+              <b-img contain color="grey" :src="transaction.their_item_photo" class="imageCard"></b-img>
+              <b-card-body>
+                <v-list-item-title style="text-align: center">{{transaction.their_item_name}}</v-list-item-title>
+              </b-card-body>
+            </div>
+          </b-card>
+        </b-col>
+        <b-col>
+          <b-card-body style="height:100%">
+            <div class="pushHalfway">
+              <b-card-title>STATUS:</b-card-title>
+              <v-list-item-title v-if="transaction.status == 0">Waiting for seller</v-list-item-title>
+              <v-list-item-title v-else-if="transaction.status == 1">Waiting for action</v-list-item-title>
+              <v-list-item-title v-else-if="transaction.status == 2">In the works</v-list-item-title>
+              <v-list-item-title v-else-if="transaction.status == 3">Complete</v-list-item-title>
+              <v-list-item-title v-else-if="transaction.status == 4">Cancelled</v-list-item-title>
+              <v-list-item-title v-else>Error</v-list-item-title>
+            </div>
+
+            <b-button class="pushDown" v-if="transaction.status == 1">Choose Outta Buyer's Shit</b-button>
+            <b-button class="pushDown" v-else-if="transaction.status == 2">Complete</b-button>
+          </b-card-body>
         </b-col>
       </b-row>
     </b-card>
@@ -64,22 +82,89 @@ export default {
   data: () => ({
     trade_list: [
       {
-        buyer_id: "nikita54321",
-        seller_id: "nikita12345",
-        buyer_item_id: null,
-        seller_item_id: "item33322",
-        type: null,
-        image_url:
-          "https://cdn.shopify.com/s/files/1/0217/3274/products/pau3053_106_h_large.jpg?v=1543863314"
+        trade_id: "123456",
+        other_person: {
+          display_name: "nikita",
+          phone: "123-456-7890",
+          email: "nikita@gmail.com",
+          photo_url:
+            "https://cdn.shopify.com/s/files/1/0217/3274/products/pau3053_106_h_large.jpg?v=1543863314"
+        },
+        your_item_photo:
+          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ebayimg.com%2Fimages%2Fi%2F182533075915-0-1%2Fs-l1000.jpg&f=1&nofb=1",
+        your_item_name: "Banana Republic Shirt",
+        their_item_photo:
+          "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fi.ebayimg.com%2Fimages%2Fi%2F271404119956-0-1%2Fs-l1000.jpg&f=1&nofb=1",
+        their_item_name: "Abercrombie New Fashionable Shirt",
+        status: 0
       },
       {
-        buyer_id: "nikita12345",
-        seller_id: "nikita44433",
-        buyer_item_id: null,
-        seller_item_id: "item33322",
-        type: null,
-        image_url:
-          "https://cdn.shopify.com/s/files/1/0128/9452/products/Puffer-Jacket-FIBL09_959f4782-35d5-40e2-95c9-881682dd440d_1024x1024.png?v=1542326918"
+        trade_id: "123456",
+        other_person: {
+          display_name: "nikita",
+          phone: "123-456-7890",
+          email: "nikita@gmail.com",
+          photo_url:
+            "https://cdn.shopify.com/s/files/1/0217/3274/products/pau3053_106_h_large.jpg?v=1543863314"
+        },
+        your_item_photo:
+          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.Jyd_y8Av2QwWhbkDrFb_6gHaHa%26pid%3DApi&f=1",
+        your_item_name: "Banana Republic Shirt",
+        their_item_photo:
+          "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fi.ebayimg.com%2Fimages%2Fi%2F271404119956-0-1%2Fs-l1000.jpg&f=1&nofb=1",
+        their_item_name: "Abercrombie New Fashionable Shirt",
+        status: 1
+      },
+      {
+        trade_id: "123456",
+        other_person: {
+          display_name: "nikita",
+          phone: "123-456-7890",
+          email: "nikita@gmail.com",
+          photo_url:
+            "https://cdn.shopify.com/s/files/1/0217/3274/products/pau3053_106_h_large.jpg?v=1543863314"
+        },
+        your_item_photo:
+          "https://cdn.shopify.com/s/files/1/0217/3274/products/pau3053_106_h_large.jpg?v=1543863314",
+        your_item_name: "Banana Republic Shirt",
+        their_item_photo:
+          "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fi.ebayimg.com%2Fimages%2Fi%2F271404119956-0-1%2Fs-l1000.jpg&f=1&nofb=1",
+        their_item_name: "Abercrombie New Fashionable Shirt",
+        status: 2
+      },
+      {
+        trade_id: "123456",
+        other_person: {
+          display_name: "nikita",
+          phone: "123-456-7890",
+          email: "nikita@gmail.com",
+          photo_url:
+            "https://cdn.shopify.com/s/files/1/0217/3274/products/pau3053_106_h_large.jpg?v=1543863314"
+        },
+        your_item_photo:
+          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ebayimg.com%2Fimages%2Fi%2F182533075915-0-1%2Fs-l1000.jpg&f=1&nofb=1",
+        your_item_name: "Banana Republic Shirt",
+        their_item_photo:
+          "https://cdn.shopify.com/s/files/1/0128/9452/products/Puffer-Jacket-FIBL09_959f4782-35d5-40e2-95c9-881682dd440d_1024x1024.png?v=1542326918",
+        their_item_name: "Nice Jacket",
+        status: 3
+      },
+      {
+        trade_id: "123456",
+        other_person: {
+          display_name: "nikita",
+          phone: "123-456-7890",
+          email: "nikita@gmail.com",
+          photo_url:
+            "https://cdn.shopify.com/s/files/1/0217/3274/products/pau3053_106_h_large.jpg?v=1543863314"
+        },
+        your_item_photo:
+          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ebayimg.com%2Fimages%2Fi%2F182533075915-0-1%2Fs-l1000.jpg&f=1&nofb=1",
+        your_item_name: "Banana Republic Shirt",
+        their_item_photo:
+          "https://cdn.shopify.com/s/files/1/0128/9452/products/Puffer-Jacket-FIBL09_959f4782-35d5-40e2-95c9-881682dd440d_1024x1024.png?v=1542326918",
+        their_item_name: "Nice Jacket",
+        status: 4
       }
     ],
     user_id: "nikita12345"
@@ -97,5 +182,25 @@ export default {
   width: 100%;
   height: 20vw;
   object-fit: cover;
+}
+
+.imageCard {
+  width: 200px;
+  height: 200px;
+}
+
+.pushRight {
+  margin-left: auto;
+  margin-right: 2%;
+}
+
+.pushDown {
+  position: absolute;
+  bottom: 10%;
+}
+
+.pushHalfway {
+  position: absolute;
+  bottom: 50%;
 }
 </style>
