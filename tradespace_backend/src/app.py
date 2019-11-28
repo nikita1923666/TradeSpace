@@ -20,7 +20,7 @@ app.register_blueprint(search_api, url_prefix='/search')
 @app.after_request
 def do_something_whenever_a_request_has_been_handled(response):
   response.headers.add('Access-Control-Allow-Origin', '*')
-  response.headers.add('Access-Control-Allow-Headers', 'content-type')
+  response.headers.add('Access-Control-Allow-Headers', '*')
   return response
 
 

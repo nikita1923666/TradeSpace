@@ -14,19 +14,21 @@
                     <span class="mr-2">Search</span>
                 </v-btn>
             </router-link>
-            <router-link to="/account" v-if="$store.getters.loggedIn">
-                <v-btn text>
-                    <span class="mr-2">Account</span>
-                </v-btn>
-            </router-link>
             <router-link to="/createItem" v-if="$store.getters.loggedIn">
                 <v-btn text>
                     <span class="mr-2">ADD ITEM FOR TRADE</span>
                 </v-btn>
             </router-link>
-            <v-btn text @click="logout" v-if="$store.getters.loggedIn">
-                <span class="mr-2">Log Out</span>
-            </v-btn>
+            <router-link to="/account" v-if="$store.getters.loggedIn">
+                <v-btn text>
+                    <span class="mr-2">Account</span>
+                </v-btn>
+            </router-link>
+            <router-link to="/home" v-if="$store.getters.loggedIn">
+                <v-btn text @click="logout" v-if="$store.getters.loggedIn">
+                    <span class="mr-2">Log Out</span>
+                </v-btn>
+            </router-link>
         </v-app-bar>
         <v-content style="margin: 0; padding: 0">
             <!--            <HelloWorld/>-->
@@ -48,7 +50,6 @@
                 let self = this;
                 firebase.auth().signOut().then(() => {
                     self.$store.commit('logIn', false);
-                    self.$router.replace('search');
                 })
             }
         }
