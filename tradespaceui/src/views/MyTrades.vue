@@ -1,31 +1,36 @@
 <template>
-  <b-container fluid style="padding: 80px 40px 0 40px">
+  <b-container fluid style="padding: 5% 0% 0 0%">
     <b-card
-      class="overflow-hidden"
-      style="margin-top: 10px;"
+      style="margin-top: 2%; "
       v-for="transaction in trade_list"
       v-bind:key="transaction.trade_id"
     >
       <b-row>
-        <v-card-title style="padding-left:5%">Trade with {{ transaction.other_person.display_name }}</v-card-title>
+        <v-card-title style="padding-left:5%;"
+          >Trade with {{ transaction.other_person.display_name }}</v-card-title
+        >
         <b-button
           v-if="transaction.status == 0 || transaction.status == 1"
           class="pushRight"
           variant="danger"
-        >Close</b-button>
+          >Close</b-button
+        >
       </b-row>
       <b-row>
-        <b-col style="padding:5%; display: flex; flex-direction: column; align-items: center;">
-          <v-list-item-avatar
-            contain
-            color="grey"
-            style="object-fit: cover; width: 150px; height: 150px "
-          >
-            <v-img :src="transaction.other_person.photo_url"></v-img>
-          </v-list-item-avatar>
+        <b-col
+          style="display: flex; flex-direction: column; align-items: center;"
+        >
+          <v-img
+            :src="transaction.other_person.photo_url"
+            style="width: 40%; height: auto; position:relative; border-radius:50%"
+          />
           <b-card-body style="text-align: center;">
-            <v-list-item-title>{{transaction.other_person.phone}}</v-list-item-title>
-            <v-list-item-title>{{transaction.other_person.email}}</v-list-item-title>
+            <v-list-item-title>{{
+              transaction.other_person.phone
+            }}</v-list-item-title>
+            <v-list-item-title>{{
+              transaction.other_person.email
+            }}</v-list-item-title>
           </b-card-body>
         </b-col>
         <b-col>
@@ -34,9 +39,16 @@
             <div
               style="display: flex; flex-direction: column; justify-content: center; align-items: center"
             >
-              <b-img contain color="grey" :src="transaction.your_item_photo" class="imageCard"></b-img>
+              <b-img
+                contain
+                color="grey"
+                :src="transaction.your_item_photo"
+                class="imageCard"
+              ></b-img>
               <b-card-body>
-                <v-list-item-title style="text-align: center">{{transaction.your_item_name}}</v-list-item-title>
+                <v-list-item-title style="text-align: center">{{
+                  transaction.your_item_name
+                }}</v-list-item-title>
               </b-card-body>
             </div>
           </b-card>
@@ -47,9 +59,16 @@
             <div
               style="display: flex; flex-direction: column; justify-content: center; align-items: center"
             >
-              <b-img contain color="grey" :src="transaction.their_item_photo" class="imageCard"></b-img>
+              <b-img
+                contain
+                color="grey"
+                :src="transaction.their_item_photo"
+                class="imageCard"
+              ></b-img>
               <b-card-body>
-                <v-list-item-title style="text-align: center">{{transaction.their_item_name}}</v-list-item-title>
+                <v-list-item-title style="text-align: center">{{
+                  transaction.their_item_name
+                }}</v-list-item-title>
               </b-card-body>
             </div>
           </b-card>
@@ -58,16 +77,30 @@
           <b-card-body style="height:100%">
             <div class="pushHalfway">
               <b-card-title>STATUS:</b-card-title>
-              <v-list-item-title v-if="transaction.status == 0">Waiting for seller</v-list-item-title>
-              <v-list-item-title v-else-if="transaction.status == 1">Waiting for action</v-list-item-title>
-              <v-list-item-title v-else-if="transaction.status == 2">In the works</v-list-item-title>
-              <v-list-item-title v-else-if="transaction.status == 3">Complete</v-list-item-title>
-              <v-list-item-title v-else-if="transaction.status == 4">Cancelled</v-list-item-title>
+              <v-list-item-title v-if="transaction.status == 0"
+                >Waiting for seller</v-list-item-title
+              >
+              <v-list-item-title v-else-if="transaction.status == 1"
+                >Waiting for action</v-list-item-title
+              >
+              <v-list-item-title v-else-if="transaction.status == 2"
+                >In the works</v-list-item-title
+              >
+              <v-list-item-title v-else-if="transaction.status == 3"
+                >Complete</v-list-item-title
+              >
+              <v-list-item-title v-else-if="transaction.status == 4"
+                >Cancelled</v-list-item-title
+              >
               <v-list-item-title v-else>Error</v-list-item-title>
             </div>
 
-            <b-button class="pushDown" v-if="transaction.status == 1">Choose Outta Buyer's Shit</b-button>
-            <b-button class="pushDown" v-else-if="transaction.status == 2">Complete</b-button>
+            <b-button class="pushDown" v-if="transaction.status == 1"
+              >Choose Outta Buyer's Shit</b-button
+            >
+            <b-button class="pushDown" v-else-if="transaction.status == 2"
+              >Complete</b-button
+            >
           </b-card-body>
         </b-col>
       </b-row>
@@ -185,8 +218,8 @@ export default {
 }
 
 .imageCard {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
 
 .pushRight {
