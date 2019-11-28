@@ -7,7 +7,9 @@
     >
       <b-row>
         <v-card-title style="padding-left:5%;"
-          >Trade with {{ transaction.other_person.display_name }}</v-card-title
+          ><div style="white-space:nowrap">
+            Trade with {{ transaction.other_person.display_name }}
+          </div></v-card-title
         >
         <b-button
           v-if="transaction.status == 0 || transaction.status == 1"
@@ -16,7 +18,7 @@
           >Close</b-button
         >
       </b-row>
-      <b-row>
+      <b-row style="display: flex">
         <b-col
           style="display: flex; flex-direction: column; align-items: center;"
         >
@@ -37,7 +39,12 @@
           <b-card>
             <b-card-title>Your Item</b-card-title>
             <div
-              style="display: flex; flex-direction: column; justify-content: center; align-items: center"
+              style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  "
             >
               <b-img
                 contain
@@ -46,9 +53,11 @@
                 class="imageCard"
               ></b-img>
               <b-card-body>
-                <v-list-item-title style="text-align: center">{{
-                  transaction.your_item_name
-                }}</v-list-item-title>
+                <v-list-item-title style="text-align: center"
+                  ><div style="white-space:normal;">
+                    {{ transaction.your_item_name }}
+                  </div></v-list-item-title
+                >
               </b-card-body>
             </div>
           </b-card>
@@ -57,7 +66,12 @@
           <b-card>
             <b-card-title>Their Item</b-card-title>
             <div
-              style="display: flex; flex-direction: column; justify-content: center; align-items: center"
+              style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  "
             >
               <b-img
                 contain
@@ -66,9 +80,11 @@
                 class="imageCard"
               ></b-img>
               <b-card-body>
-                <v-list-item-title style="text-align: center">{{
-                  transaction.their_item_name
-                }}</v-list-item-title>
+                <v-list-item-title style="text-align: center; ">
+                  <div style="white-space:normal;">
+                    {{ transaction.their_item_name }}
+                  </div></v-list-item-title
+                >
               </b-card-body>
             </div>
           </b-card>
@@ -162,7 +178,8 @@ export default {
         your_item_name: "Banana Republic Shirt",
         their_item_photo:
           "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fi.ebayimg.com%2Fimages%2Fi%2F271404119956-0-1%2Fs-l1000.jpg&f=1&nofb=1",
-        their_item_name: "Abercrombie New Fashionable Shirt",
+        their_item_name:
+          "Abercrombie New Fashionable Shirt xxxxxxxxxxxxxxxxx xxxxxxxxxxxxx xxxxxxxxxxxxxx xxxxxx",
         status: 2
       },
       {
@@ -235,5 +252,11 @@ export default {
 .pushHalfway {
   position: absolute;
   bottom: 50%;
+}
+
+.card {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 </style>
