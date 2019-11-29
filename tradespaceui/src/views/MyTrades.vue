@@ -1,7 +1,11 @@
 <template>
   <b-container fluid style="padding: 5% 0% 0 0%">
+    <h1 class="mytradestitle">
+      MY TRADES
+    </h1>
     <b-card
-      style="margin-top: 2%; "
+      no-body
+      style="margin-top: 2%; height: 50%; width:100%; margin-right: 2%; display:inline-block;"
       v-for="transaction in trade_list"
       v-bind:key="transaction.trade_id"
     >
@@ -18,13 +22,13 @@
           >Close</b-button
         >
       </b-row>
-      <b-row style="display: flex">
+      <b-row style="display: flex; flex-direction: row; flex-wrap: nowrap; ">
         <b-col
-          style="display: flex; flex-direction: column; align-items: center;"
+          style="display: flex; flex-direction: column; align-items: center; flex: 1 1 auto; max-width: 26%"
         >
-          <v-img
+          <img
             :src="transaction.other_person.photo_url"
-            style="width: 40%; height: auto; position:relative; border-radius:50%"
+            style="width: 70%; height: auto; position:relative; border-radius:50%"
           />
           <b-card-body style="text-align: center;">
             <v-list-item-title>{{
@@ -35,9 +39,9 @@
             }}</v-list-item-title>
           </b-card-body>
         </b-col>
-        <b-col>
-          <b-card>
-            <b-card-title>Your Item</b-card-title>
+        <b-col style="flex: 1 1 auto; max-width: 26%">
+          <b-card no-body style="height:100%">
+            <b-card-title style="padding:5%">Your Item</b-card-title>
             <div
               style="
                   display: flex;
@@ -62,9 +66,9 @@
             </div>
           </b-card>
         </b-col>
-        <b-col>
-          <b-card>
-            <b-card-title>Their Item</b-card-title>
+        <b-col style="flex: 1 1 auto; max-width: 26%">
+          <b-card no-body style="height:100%">
+            <b-card-title style="padding:5%">Their Item</b-card-title>
             <div
               style="
                   display: flex;
@@ -89,7 +93,7 @@
             </div>
           </b-card>
         </b-col>
-        <b-col>
+        <b-col style="flex: 1 1 auto; max-width:22%">
           <b-card-body style="height:100%">
             <div class="pushHalfway">
               <b-card-title>STATUS:</b-card-title>
@@ -258,5 +262,11 @@ export default {
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
+}
+
+.mytradestitle {
+  width: 100%;
+  margin-top: 2%;
+  text-align: center;
 }
 </style>
