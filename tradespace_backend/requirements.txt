@@ -33,7 +33,7 @@ more-itertools==7.2.0
 msgpack==0.6.2
 packaging==19.2
 pluggy==0.13.0
-protobuf==3.10.0
+protobuf==3.18.3
 py==1.8.0
 pyasn1==0.4.7
 pyasn1-modules==0.2.7
